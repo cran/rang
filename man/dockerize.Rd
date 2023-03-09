@@ -17,7 +17,11 @@ dockerize(
   verbose = TRUE,
   lib = NA,
   cran_mirror = "https://cran.r-project.org/",
-  check_cran_mirror = TRUE
+  check_cran_mirror = TRUE,
+  bioc_mirror = "https://bioconductor.org/packages/",
+  no_rocker = FALSE,
+  debian_version = c("lenny", "squeeze", "wheezy", "jessie", "stretch"),
+  skip_r17 = TRUE
 )
 
 dockerize_rang(...)
@@ -34,12 +38,12 @@ dockerise_rang(...)
 \item{materials_dir}{character, path to the directory containing additional resources (e.g. analysis scripts) to be copied into \code{output_dir} and in turn into the Docker container}
 
 \item{image}{character, which versioned Rocker image to use. Can only be "r-ver", "rstudio", "tidyverse", "verse", "geospatial"
-This applies only to R version <= 3.1}
+This applies only to R version >= 3.1}
 
 \item{rang_as_comment}{logical, whether to write resolved result and the steps to reproduce
 the file to \code{path} as comment}
 
-\item{cache}{logical, whether to cache the packages now. Please note that the system requirements are not cached. For query with non-CRAN packages, this option is strongly recommended. For R version < 3.1, this must be TRUE if there is any non-CRAN packages.}
+\item{cache}{logical, whether to cache the packages now. Please note that the system requirements are not cached. For query with non-CRAN packages, this option is strongly recommended. For query with local packages, this must be TRUE regardless of R version. For R version < 3.1, this must be also TRUE if there is any non-CRAN packages.}
 
 \item{verbose}{logical, pass to \code{\link[=install.packages]{install.packages()}}, the negated value is also passed as \code{quiet} to both \code{\link[=install.packages]{install.packages()}}
 and \code{\link[=download.file]{download.file()}}.}
@@ -49,6 +53,14 @@ and \code{\link[=download.file]{download.file()}}.}
 \item{cran_mirror}{character, which CRAN mirror to use}
 
 \item{check_cran_mirror}{logical, whether to check the CRAN mirror}
+
+\item{bioc_mirror}{character, which Bioconductor mirror to use}
+
+\item{no_rocker}{logical, whether to skip using Rocker images even when an appropriate version is available. Please keep this as \code{TRUE} unless you know what you are doing}
+
+\item{debian_version}{when Rocker images are not used, which EOL version of Debian to use. Can only be "lenny", "etch", "squeeze", "wheezy", "jessie", "stretch". Please keep this as default "lenny" unless you know what you are doing}
+
+\item{skip_r17}{logical, whether to skip R 1.7.x. Currently, it is not possible to compile R 1.7.x (R 1.7.0 and R 1.7.1) with the method provided by  \code{rang}. It affects \code{snapshot_date} from 2003-04-16 to 2003-10-07. When \code{skip_r17} is TRUE and \code{snapshot_date} is within the aforementioned range, R 1.8.0 is used instead.}
 
 \item{...}{arguments to be passed to \code{dockerize}}
 }
@@ -60,7 +72,7 @@ This function exports the result from \code{\link[=resolve]{resolve()}} to a Doc
 For R version < 3.1.0, the Dockerfile is based on Debian and it compiles R from source.
 }
 \details{
-The idea behind this is to determine the installation order of R packages locally. Then, the installation script can be depolyed to another
+The idea behind this is to determine the installation order of R packages locally. Then, the installation script can be deployed to another
 fresh R session to install R packages. \code{\link[=dockerize]{dockerize()}} is a more reasonable way because a fresh R session with all system requirements
 is provided. The current approach does not work in R < 2.1.0.
 }

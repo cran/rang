@@ -11,7 +11,8 @@ export_rang(
   verbose = TRUE,
   lib = NA,
   cran_mirror = "https://cran.r-project.org/",
-  check_cran_mirror = TRUE
+  check_cran_mirror = TRUE,
+  bioc_mirror = "https://bioconductor.org/packages/"
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ and \code{\link[=download.file]{download.file()}}.}
 \item{cran_mirror}{character, which CRAN mirror to use}
 
 \item{check_cran_mirror}{logical, whether to check the CRAN mirror}
+
+\item{bioc_mirror}{character, which Bioconductor mirror to use}
 }
 \value{
 \code{path}, invisibly
@@ -38,7 +41,7 @@ and \code{\link[=download.file]{download.file()}}.}
 This function exports the results from \code{\link[=resolve]{resolve()}} to an installation script that can be run in a fresh R environment.
 }
 \details{
-The idea behind this is to determine the installation order of R packages locally. Then, the installation script can be depolyed to another
+The idea behind this is to determine the installation order of R packages locally. Then, the installation script can be deployed to another
 fresh R session to install R packages. \code{\link[=dockerize]{dockerize()}} is a more reasonable way because a fresh R session with all system requirements
 is provided. The current approach does not work in R < 2.1.0.
 }

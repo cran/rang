@@ -23,9 +23,15 @@ purpose, packages such as [renv](https://github.com/rstudio/renv/),
 One can think of rang as an archaeological tool.
 
 To reconstruct a historical R computational environment, this package
-assumes only the availability of source packages on CRAN. The
+assumes only the availability of source packages online. The
 reconstruction procedures have been tested in several vintage versions
 of R.
+
+Please cite this package as:
+
+Chan CH, Schoch D (2023) rang: Reconstructing reproducible R
+computational environments. arXiv
+preprint:[2303.04758](https://doi.org/10.48550/arXiv.2303.04758)
 
 ## Installation
 
@@ -35,14 +41,20 @@ You can install the development version of rang like so:
 remotes::install_github("chainsawriot/rang")
 ```
 
+Or the stable CRAN version
+
+``` r
+install.packages("rang")
+```
+
 ## Example
 
 To obtain the dependency graph of R packages, use `resolve`. Currently,
-this package supports both CRAN and Github packages.
+this package supports CRAN, Bioconductor, GitHub, and local packages.
 
 ``` r
 library(rang)
-x <- resolve(pkgs = c("sna", "schochastics/rtoot"), snapshot_date = "2022-11-30")
+x <- resolve(pkgs = c("sna", "schochastics/rtoot", "S4Vectors"), snapshot_date = "2022-11-30")
 ```
 
 ``` r
@@ -105,8 +117,8 @@ Now, you can build and run the Docker container.
 
 ``` bash
 cd ~/rocker_test
-sudo docker build -t rang .
-sudo docker run --rm --name "rangtest" -ti rang
+docker build -t rang .
+docker run --rm --name "rangtest" -ti rang
 ```
 
 Using the above example, `sessionInfo()` outputs the following. You have
@@ -152,10 +164,10 @@ loaded via a namespace (and not attached):
 
 ### Caching R packages
 
-One can also cache (or archive) the R packages from CRAN at the time
-`dockerize` is executed. The cached R packages will then transfer to the
-container. Please note that system requirements (i.e. `deb` packages)
-are not cached.
+One can also cache (or archive) the R packages from CRAN and Github at
+the time `dockerize` is executed. The cached R packages will then
+transfer to the container. Please note that system requirements
+(i.e. `deb` packages) are not cached.
 
 ``` r
 dockerize(graph, "~/rocker_test", cache = TRUE)
@@ -175,8 +187,8 @@ dockerize(graph, "~/rocker_test", image = "rstudio")
 
 ``` bash
 cd ~/rocker_test
-sudo docker build -t rang .
-sudo docker run -p 8787:8787 -e PASSWORD=abc123 --rm --name "rangtest" -ti rang
+docker build -t rang .
+docker run -p 8787:8787 -e PASSWORD=abc123 --rm --name "rangtest" -ti rang
 ```
 
 With any browser, go to: `local:8787`. The default username is
@@ -185,9 +197,9 @@ With any browser, go to: `local:8787`. The default username is
 ## Recreate the computational environment for R \< 3.1.0
 
 `rang` can still be used to recreate computational environments for R \<
-3.1.0. The Dockerfile generated is based on Debian Woody (3.0) and the
+3.1.0. The Dockerfile generated is based on Debian Lenny (5.0) and the
 requested version of R is compiled from source. As of writing, this
-method works for R \< 3.1.0 but not R \< 2.1.0. The `image` parameter is
+method works for R \< 3.1.0 but not R \< 1.3.1. The `image` parameter is
 ignored in this case.
 
 ``` r
