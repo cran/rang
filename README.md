@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/chainsawriot/rang/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/chainsawriot/rang/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/gesistsa/rang/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gesistsa/rang/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of rang (Reconstructing Ancient Number-crunching Gears) \[1\]
@@ -38,7 +38,7 @@ computational environments. PLOS ONE
 You can install the development version of rang like so:
 
 ``` r
-remotes::install_github("chainsawriot/rang")
+remotes::install_github("gesistsa/rang")
 ```
 
 Or the stable CRAN version

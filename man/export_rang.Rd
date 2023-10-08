@@ -42,7 +42,7 @@ This function exports the results from \code{\link[=resolve]{resolve()}} to an i
 }
 \details{
 The idea behind this is to determine the installation order of R packages locally. Then, the installation script can be deployed to another
-fresh R session to install R packages. \code{\link[=dockerize]{dockerize()}} is a more reasonable way because a fresh R session with all system requirements
+fresh R session to install R packages. \code{\link[=dockerize]{dockerize()}} and \code{\link[=apptainerize]{apptainerize()}} are more reasonable ways because a fresh R session with all system requirements
 is provided. The current approach does not work in R < 2.1.0.
 }
 \examples{
@@ -56,4 +56,7 @@ if (interactive()) {
 }
 \references{
 Ripley, B. (2005) \href{https://cran.r-project.org/doc/Rnews/Rnews_2005-1.pdf}{Packages and their Management in R 2.1.0.} R News, 5(1):8--11.
+}
+\seealso{
+\code{\link[=generate_installation_order]{generate_installation_order()}}
 }
